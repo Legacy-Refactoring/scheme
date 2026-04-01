@@ -13,7 +13,15 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - ./seeder.sql:/docker-entrypoint-initdb.d/02-seeder.sql:ro
 
-  lang:
+  scheme:
+    image: guile:3
+    container_name: legacy_scheme
+    volumes:
+      - ./legacy.scm:/app/legacy.scm
+    working_dir: /app
+    command: guile legacy.scm
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
